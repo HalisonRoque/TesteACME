@@ -12,7 +12,4 @@
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <SourceRoot Include="C:\Users\halis\.nuget\packages\" />
   </ItemGroup>
-  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgNet_IBM_Data_Db2 Condition=" '$(PkgNet_IBM_Data_Db2)' == '' ">C:\Users\halis\.nuget\packages\net.ibm.data.db2\9.0.0.300</PkgNet_IBM_Data_Db2>
-  </PropertyGroup>
 </Project>

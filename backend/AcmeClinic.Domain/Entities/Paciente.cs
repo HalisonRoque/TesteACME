@@ -10,7 +10,7 @@ public class Paciente
 
     public string CPF { get; set; }
 
-    public int Sexo { get; set; }
+    public string Sexo { get; set; }
 
     public string Cidade { get; set; }
 
@@ -22,5 +22,5 @@ public class Paciente
 
     public string? Complemento { get; set; }
 
-    public bool Status { get; set; }
+    public string Status { get; set; }
 }
