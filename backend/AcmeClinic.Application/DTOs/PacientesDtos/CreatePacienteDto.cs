@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace AcmeClinic.Application.DTOs;
+namespace AcmeClinic.Application.DTOs.PacientesDtos;
 
-public class CriarPacienteDto
+public class CreatePacienteDto
 {
     [Required]
     [MaxLength(150)]

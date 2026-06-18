@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using AcmeClinic.Domain.Entities;
-using AcmeClinic.Domain.Interfaces;
+using AcmeClinic.Application.Services;
+using AcmeClinic.Application.DTOs.PacientesDtos;
 
 namespace AcmeClinic.Api.Controllers;
 
@@ -8,26 +8,52 @@ namespace AcmeClinic.Api.Controllers;
 [Route("api/pacientes")]
 public class PacientesController: ControllerBase
 {
-    private readonly IPacienteRepository _repository;
+    private readonly PacienteService _service;
 
-    public PacientesController(IPacienteRepository repository)
+    public PacientesController(PacienteService service)
     {
-        _repository = repository;
+        _service = service;
     }
 
     [HttpPost("create")]
-    public async Task<IActionResult> Create(Paciente paciente)
+    public async Task<IActionResult> Create([FromBody] CreatePacienteDto body)
     {
-        var id = await _repository.Create(paciente);
-
-        return Ok(new {id});
+        var paciente = await _service.CreatePaciente(body);
+        return Ok(new {paciente});
     }
 
     [HttpGet("all")]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] FilterPacienteDto filter)
     {
-        var response = await _repository.GetAll();
-
+        var response = await _service.GetAll(filter);
         return Ok(response);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var paciente = await _service.GetById(id);
+        return Ok(paciente);
+    }
+
+    [HttpPut("{id}/update")]
+    public async Task<IActionResult> UpdatePaciente(int id, UpdatePacienteDto body)
+    {
+        await _service.UpdatePaciente(id, body);
+        return NoContent();
+    }
+
+    [HttpPatch("{id}/inativar")]
+    public async Task<IActionResult> InactivatePaciente(int id)
+    {
+        await _service.InactivatePaciente(id);
+        return NoContent();
+    }
+
+    [HttpPatch("{id}/ativar")]
+    public async Task<IActionResult> ActivatePaciente(int id)
+    {
+        await _service.ActivatePaciente(id);
+        return NoContent();
     }
 }

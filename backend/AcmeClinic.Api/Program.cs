@@ -1,6 +1,7 @@
 using AcmeClinic.Infrastructure.Context;
 using AcmeClinic.Domain.Interfaces;
 using AcmeClinic.Infrastructure.Repositories;
+using AcmeClinic.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,8 @@ builder.Configuration
 ));
 
 builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
+
+builder.Services.AddScoped<PacienteService>();
 
 var app = builder.Build();
 
