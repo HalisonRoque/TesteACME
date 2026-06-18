@@ -23,8 +23,10 @@ builder.Configuration
 ));
 
 builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
+builder.Services.AddScoped<IAtendimentoRepository, AtendimentoRepository>();
 
 builder.Services.AddScoped<PacienteService>();
+builder.Services.AddScoped<AtendimentoService>();
 
 var app = builder.Build();
 
