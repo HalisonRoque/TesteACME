@@ -1,0 +1,11 @@
+C:\Users\halis\OneDrive\Área de Trabalho\TesteACME\backend\AcmeClinic.Domain\bin\Debug\net8.0\AcmeClinic.Domain.deps.json
+C:\Users\halis\OneDrive\Área de Trabalho\TesteACME\backend\AcmeClinic.Domain\bin\Debug\net8.0\AcmeClinic.Domain.dll
+C:\Users\halis\OneDrive\Área de Trabalho\TesteACME\backend\AcmeClinic.Domain\bin\Debug\net8.0\AcmeClinic.Domain.pdb
+C:\Users\halis\OneDrive\Área de Trabalho\TesteACME\backend\AcmeClinic.Domain\obj\Debug\net8.0\AcmeClinic.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\halis\OneDrive\Área de Trabalho\TesteACME\backend\AcmeClinic.Domain\obj\Debug\net8.0\AcmeClinic.Domain.AssemblyInfoInputs.cache
+C:\Users\halis\OneDrive\Área de Trabalho\TesteACME\backend\AcmeClinic.Domain\obj\Debug\net8.0\AcmeClinic.Domain.AssemblyInfo.cs
+C:\Users\halis\OneDrive\Área de Trabalho\TesteACME\backend\AcmeClinic.Domain\obj\Debug\net8.0\AcmeClinic.Domain.csproj.CoreCompileInputs.cache
+C:\Users\halis\OneDrive\Área de Trabalho\TesteACME\backend\AcmeClinic.Domain\obj\Debug\net8.0\AcmeClinic.Domain.dll
+C:\Users\halis\OneDrive\Área de Trabalho\TesteACME\backend\AcmeClinic.Domain\obj\Debug\net8.0\refint\AcmeClinic.Domain.dll
+C:\Users\halis\OneDrive\Área de Trabalho\TesteACME\backend\AcmeClinic.Domain\obj\Debug\net8.0\AcmeClinic.Domain.pdb
+C:\Users\halis\OneDrive\Área de Trabalho\TesteACME\backend\AcmeClinic.Domain\obj\Debug\net8.0\ref\AcmeClinic.Domain.dll

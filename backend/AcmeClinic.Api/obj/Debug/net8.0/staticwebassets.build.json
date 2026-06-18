@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "ugL+xXFGQsLflAhPGT2gzBJ9DJk0TtM/B2FTPrUeXCw=",
+  "Source": "AcmeClinic.Api",
+  "BasePath": "_content/AcmeClinic.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
