@@ -7,16 +7,16 @@ namespace AcmeClinic.Infrastructure.Repositories;
 
 public class PacienteRepository : IPacienteRepository
 {
-    private readonly DbSQLiteContext _db;
+    private readonly DbSQLiteContext _context;
 
-    public PacienteRepository(DbSQLiteContext db)
+    public PacienteRepository(DbSQLiteContext context)
     {
-        _db = db;
+        _context = context;
     }
 
     public async Task<int> Create(Paciente paciente)
     {
-        using var conn = _db.Create();
+        using var conn = _context.Create();
 
         var sql =
             @"
@@ -63,7 +63,7 @@ public class PacienteRepository : IPacienteRepository
         int pageSize
     )
     {
-        using var conn = _db.Create();
+        using var conn = _context.Create();
 
         var offset = (page - 1) * pageSize;
 
@@ -111,14 +111,14 @@ public class PacienteRepository : IPacienteRepository
 
     public async Task<Paciente?> GetById(int id)
     {
-        using var conn = _db.Create();
+        using var conn = _context.Create();
 
         return await conn
             .QueryFirstOrDefaultAsync<Paciente>(
                 @"
-                SELECT *
-                FROM Pacientes
-                WHERE Id=@id
+                    SELECT *
+                    FROM Pacientes
+                    WHERE Id=@id
                 ",
                 new { id }
             );
@@ -126,7 +126,7 @@ public class PacienteRepository : IPacienteRepository
 
     public async Task UpdatePaciente(Paciente paciente)
     {
-        using var conn = _db.Create();
+        using var conn = _context.Create();
 
         await conn.ExecuteAsync(
             @"    
@@ -150,7 +150,7 @@ public class PacienteRepository : IPacienteRepository
 
     public async Task InactivatePaciente(int id)
     {
-        using var conn = _db.Create();
+        using var conn = _context.Create();
 
         await conn.ExecuteAsync(
             @"
@@ -164,7 +164,7 @@ public class PacienteRepository : IPacienteRepository
 
     public async Task ActivatePaciente(int id)
     {
-        using var conn = _db.Create();
+        using var conn = _context.Create();
 
         await conn.ExecuteAsync(
             @"
@@ -178,7 +178,7 @@ public class PacienteRepository : IPacienteRepository
 
     public async Task<bool> ExistsCPF(string cpf)
     {
-        using var conn = _db.Create();
+        using var conn = _context.Create();
 
         var total = await conn
         .ExecuteScalarAsync<int>(
@@ -199,31 +199,28 @@ public class PacienteRepository : IPacienteRepository
         string? status
     )
     {
-        using var conn = _db.Create();
+        using var conn = _context.Create();
     
         return await conn
         .ExecuteScalarAsync<int>(
             @"
+                SELECT COUNT(*)
+                FROM Pacientes
 
-            SELECT COUNT(*)
+                WHERE (
+                @nome IS NULL
+                OR Nome LIKE '%' || @nome || '%'
+                )
 
-            FROM Pacientes
+                AND (
+                @cpf IS NULL
+                OR CPF=@cpf
+                )
 
-            WHERE (
-            @nome IS NULL
-            OR Nome LIKE '%' || @nome || '%'
-            )
-
-            AND (
-            @cpf IS NULL
-            OR CPF=@cpf
-            )
-
-            AND (
-            @status IS NULL
-            OR Status=@status
-            )
-
+                AND (
+                @status IS NULL
+                OR Status=@status
+                )
             ",
             new {
                 nome,

@@ -2,6 +2,8 @@ using AcmeClinic.Application.DTOs.PacientesDtos;
 using AcmeClinic.Application.DTOs.PaginationDtos;
 using AcmeClinic.Domain.Interfaces;
 using AcmeClinic.Domain.Entities;
+using AcmeClinic.Application.Exceptions;
+using AcmeClinic.Domain.Constants;
 
 namespace AcmeClinic.Application.Services;
 
@@ -18,7 +20,20 @@ public class PacienteService
     {
         if (await _repository.ExistsCPF(dto.CPF))
         {
-            throw new Exception("CPF já cadastrado");
+            throw new ConflictException("CPF já cadastrado");
+        }
+
+        if (dto.DataNascimento > DateTime.Now)
+        {
+            throw new ValidationException("Data nascimento inválida");
+        }
+
+        if (
+            dto.Status != StatusPaciente.Ativo &&
+            dto.Status != StatusPaciente.Inativo
+        )
+        {
+            throw new ValidationException("Status inválido");
         }
 
         var paciente = new Paciente
@@ -85,7 +100,7 @@ public class PacienteService
 
         if (paciente == null)
         {
-            throw new Exception("Paciente não encontrado");
+            throw new NotFoundException("Paciente não encontrado");
         }
 
         return new()
@@ -105,7 +120,15 @@ public class PacienteService
 
         if (paciente == null)
         {
-            throw new Exception("Paciente não encontrado");
+            throw new NotFoundException("Paciente não encontrado");
+        }
+
+        if (
+            dto.Status != StatusPaciente.Ativo &&
+            dto.Status != StatusPaciente.Inativo
+        )
+        {
+            throw new ValidationException("Status inválido");
         }
 
         paciente.Nome = dto.Nome;
@@ -127,7 +150,7 @@ public class PacienteService
 
         if (paciente == null)
         {
-            throw new Exception("Paciente não encontrado");
+            throw new NotFoundException("Paciente não encontrado");
         }
 
         await _repository.InactivatePaciente(id);
@@ -139,7 +162,7 @@ public class PacienteService
 
         if (paciente == null)
         {
-            throw new Exception("Paciente não encontrado");
+            throw new NotFoundException("Paciente não encontrado");
         }
 
         await _repository.ActivatePaciente(id);

@@ -2,6 +2,7 @@ using AcmeClinic.Infrastructure.Context;
 using AcmeClinic.Domain.Interfaces;
 using AcmeClinic.Infrastructure.Repositories;
 using AcmeClinic.Application.Services;
+using AcmeClinic.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,8 @@ if (app.Environment.IsDevelopment())
 
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 

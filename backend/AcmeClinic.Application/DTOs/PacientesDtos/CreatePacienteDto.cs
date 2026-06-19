@@ -4,35 +4,35 @@ namespace AcmeClinic.Application.DTOs.PacientesDtos;
 
 public class CreatePacienteDto
 {
-    [Required]
+    [Required(ErrorMessage = "Nome é obrigatório!")]
     [MaxLength(150)]
-    public required string Nome { get; set; }
+    public string Nome { get; set; } = string.Empty;
 
-    [Required]
+    [Required(ErrorMessage = "Data de nascimento é obrigatório!")]
     public DateTime DataNascimento { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "CPF é obrigatório!")]
     [StringLength(11)]
-    public required string CPF { get; set; }
+    public string CPF { get; set; } = string.Empty;
 
-    [Required]
-    public required string Sexo { get; set; }
+    [Required(ErrorMessage = "Genero é obrigatório!")]
+    public string Sexo { get; set; } = string.Empty;
 
-    [Required]
-    public required string Cidade { get; set; }
+    [Required(ErrorMessage = "Cidade é obrigatório!")]
+    public string Cidade { get; set; } = string.Empty;
 
-    [Required]
-    [StringLength(8)]
-    public required string CEP { get; set; }
+    [Required(ErrorMessage = "CEP é obrigatório!")]
+    [StringLength(9)]
+    public string CEP { get; set; } = string.Empty;
 
-    [Required]
-    public required string Bairro { get; set; }
+    [Required(ErrorMessage = "Bairro é obrigatório!")]
+    public string Bairro { get; set; } = string.Empty;
 
-    [Required]
-    public required string Endereco { get; set; }
+    [Required(ErrorMessage = "Endereço é obrigatório!")]
+    public string Endereco { get; set; } = string.Empty;
 
     public string? Complemento { get; set; }
 
-    [Required]
-    public required string Status { get; set; }
+    [Required(ErrorMessage = "Status é obrigatório!")]
+    public string Status { get; set; } = string.Empty;
 }

@@ -1,5 +1,7 @@
 using AcmeClinic.Application.DTOs.AtendimentosDtos;
 using AcmeClinic.Application.DTOs.PaginationDtos;
+using AcmeClinic.Application.Exceptions;
+using AcmeClinic.Domain.Constants;
 using AcmeClinic.Domain.Entities;
 using AcmeClinic.Domain.Interfaces;
 
@@ -8,7 +10,6 @@ namespace AcmeClinic.Application.Services;
 public class AtendimentoService
 {
     private readonly IAtendimentoRepository _repository;
-
     private readonly IPacienteRepository _pacienteRepository;
 
     public AtendimentoService(IAtendimentoRepository repository, IPacienteRepository pacienteRepository)
@@ -21,25 +22,27 @@ public class AtendimentoService
     {
         if (dto.DataHora > DateTime.Now)
         {
-            throw new Exception(
-                "Não é permitido registrar atendimento futuro"
-            );
+            throw new ValidationException("Não é permitido atendimento futuro");
+        }
+
+        if (
+            dto.Status != StatusPaciente.Ativo &&
+            dto.Status != StatusPaciente.Inativo
+        )
+        {
+            throw new ValidationException("Status inválido");
         }
 
         var paciente = await _pacienteRepository.GetById(dto.PacienteId);
 
         if (paciente == null)
         {
-            throw new Exception(
-                "Paciente não encontrado"
-            );
+            throw new NotFoundException("Paciente não encontrado");
         }
 
-        if (paciente.Status != "Ativo")
+        if (paciente.Status != StatusPaciente.Ativo)
         {
-            throw new Exception(
-                "Somente pacientes ativos podem receber atendimento"
-            );
+            throw new ValidationException("Somente pacientes ativos podem receber atendimento");
         }
 
         var atendimento = new Atendimento
@@ -98,9 +101,7 @@ public class AtendimentoService
 
         if (atendimento == null)
         {
-            throw new Exception(
-                "Atendimento não encontrado"
-            );
+            throw new NotFoundException("Atendimento não encontrado");
         }
 
         return new()
@@ -117,18 +118,22 @@ public class AtendimentoService
     {
         if (dto.DataHora > DateTime.Now)
         {
-            throw new Exception(
-                "Data futura não permitida"
-            );
+            throw new ValidationException("Data futura não permitida");
+        }
+
+        if (
+            dto.Status != StatusPaciente.Ativo &&
+            dto.Status != StatusPaciente.Inativo
+        )
+        {
+            throw new ValidationException("Status inválido");
         }
 
         var atendimento = await _repository.GetById(id);
 
         if (atendimento == null)
         {
-            throw new Exception(
-                "Atendimento não encontrado"
-            );
+            throw new NotFoundException("Atendimento não encontrado");
         }
 
         atendimento.DataHora = dto.DataHora;
@@ -144,9 +149,7 @@ public class AtendimentoService
 
         if (atendimento == null)
         {
-            throw new Exception(
-                "Atendimento não encontrado"
-            );
+            throw new NotFoundException("Atendimento não encontrado");
         }
 
         await _repository.InactivateAntedimento(id);
@@ -158,9 +161,7 @@ public class AtendimentoService
 
         if (atendimento == null)
         {
-            throw new Exception(
-                "Atendimento não encontrado"
-            );
+            throw new NotFoundException("Atendimento não encontrado");
         }
 
         await _repository.ActivateAntedimento(id);
