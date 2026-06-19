@@ -1,0 +1,57 @@
+.container {
+  padding: 40px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-card {
+  margin-bottom: 20px;
+  border-radius: 12px;
+}
+
+.table-card {
+  border-radius: 12px;
+}
+
+.filters {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+mat-form-field {
+  width: 240px;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-mdc-header-row {
+  height: 44px !important;
+}
+
+.mat-mdc-row {
+  height: 48px !important;
+}
+
+.mat-mdc-cell,
+.mat-mdc-header-cell {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  font-size: 14px;
+}
+
+mat-paginator {
+  margin-top: 8px;
+}
+
+td button {
+  transform: scale(.9);
+}

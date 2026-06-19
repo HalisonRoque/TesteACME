@@ -1,0 +1,91 @@
+<h2 mat-dialog-title>
+  {{ data ? "Editar" : "Novo" }}
+
+  Paciente
+</h2>
+
+<mat-dialog-content>
+  <form class="form" [formGroup]="form">
+    <div class="row">
+      <mat-form-field>
+        <mat-label> Nome </mat-label>
+
+        <input matInput formControlName="nome" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label> CPF </mat-label>
+
+        <input matInput formControlName="cpf" />
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field>
+        <mat-label> Nascimento </mat-label>
+
+        <input matInput type="date" formControlName="dataNascimento" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label> Sexo </mat-label>
+
+        <mat-select formControlName="sexo">
+          <mat-option value="M"> Masculino </mat-option>
+
+          <mat-option value="F"> Feminino </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field>
+        <mat-label> CEP </mat-label>
+
+        <input matInput formControlName="cep" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label> Cidade </mat-label>
+
+        <input matInput formControlName="cidade" />
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field>
+        <mat-label> Bairro </mat-label>
+
+        <input matInput formControlName="bairro" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label> Endereço </mat-label>
+
+        <input matInput formControlName="endereco" />
+      </mat-form-field>
+    </div>
+
+    <mat-form-field>
+      <mat-label> Complemento </mat-label>
+
+      <input matInput formControlName="complemento" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label> Status </mat-label>
+
+      <mat-select formControlName="status">
+        <mat-option value="ATIVO"> Ativo </mat-option>
+
+        <mat-option value="INATIVO"> Inativo </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button color="warn" (click)="fechar()">Cancelar</button>
+
+  <button mat-raised-button (click)="salvar()">Salvar</button>
+</mat-dialog-actions>

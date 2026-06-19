@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>
+  {{ data ? "Editar" : "Novo" }}
+  Atendimento
+</h2>
+
+<mat-dialog-content>
+  <form class="form" [formGroup]="form">
+    <div class="row">
+      <mat-form-field>
+        <mat-label> Paciente </mat-label>
+
+        <mat-select formControlName="pacienteId">
+          <mat-option *ngFor="let paciente of pacientes" [value]="paciente.id">
+            {{ paciente.nome }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label> Data e Hora </mat-label>
+
+        <input matInput type="datetime-local" formControlName="dataHora" />
+      </mat-form-field>
+    </div>
+
+    <mat-form-field>
+      <mat-label> Descrição </mat-label>
+
+      <textarea matInput rows="6" formControlName="descricao"></textarea>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label> Status </mat-label>
+
+      <mat-select formControlName="status">
+        <mat-option value="ATIVO"> Ativo </mat-option>
+
+        <mat-option value="INATIVO"> Inativo </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button color="warn" (click)="fechar()">Cancelar</button>
+
+  <button mat-raised-button (click)="salvar()">Salvar</button>
+</mat-dialog-actions>

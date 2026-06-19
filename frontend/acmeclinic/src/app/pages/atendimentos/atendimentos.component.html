@@ -1,0 +1,118 @@
+<div class="container">
+  <div class="header">
+    <h1>Atendimentos</h1>
+
+    <button mat-raised-button (click)="abrirModal()">
+      <mat-icon> add </mat-icon>
+
+      Novo Atendimento
+    </button>
+  </div>
+
+  <mat-card class="filter-card">
+    <mat-card-content>
+      <div class="filters">
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Paciente" [(ngModel)]="filter.pacienteId">
+            <mat-option> Todos </mat-option>
+
+            <mat-option
+              *ngFor="let paciente of pacientes"
+              [value]="paciente.id"
+            >
+              {{ paciente.nome }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <input matInput type="date" [(ngModel)]="filter.dataInicio" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <input matInput type="date" [(ngModel)]="filter.dataFim" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Status" [(ngModel)]="filter.status">
+            <mat-option value=""> Todos </mat-option>
+
+            <mat-option value="ATIVO"> Ativo </mat-option>
+
+            <mat-option value="INATIVO"> Inativo </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button (click)="aplicarFiltro()">
+          <mat-icon> search </mat-icon>
+
+          Filtrar
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="table-card">
+    <mat-card-content>
+      <table mat-table [dataSource]="atendimentos">
+        <ng-container matColumnDef="paciente">
+          <th mat-header-cell *matHeaderCellDef>Paciente</th>
+
+          <td mat-cell *matCellDef="let row">
+            {{ row.pacienteNome }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="dataHora">
+          <th mat-header-cell *matHeaderCellDef>Data/Hora</th>
+
+          <td mat-cell *matCellDef="let row">
+            {{ row.dataHora }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="descricao">
+          <th mat-header-cell *matHeaderCellDef>Descrição</th>
+
+          <td mat-cell *matCellDef="let row">
+            {{ row.descricao }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+
+          <td mat-cell *matCellDef="let row">
+            {{ row.status }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acoes">
+          <th mat-header-cell *matHeaderCellDef>Ações</th>
+
+          <td mat-cell *matCellDef="let row">
+            <button mat-icon-button (click)="abrirModal(row)">
+              <mat-icon> edit </mat-icon>
+            </button>
+
+            <button mat-icon-button (click)="inativar(row.id)">
+              <mat-icon> block </mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <mat-paginator
+        [length]="total"
+        [pageSize]="10"
+        [pageSizeOptions]="[10]"
+        (page)="trocarPagina($event)"
+      >
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>
