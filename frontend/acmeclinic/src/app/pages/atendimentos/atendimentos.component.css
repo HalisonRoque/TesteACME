@@ -5,26 +5,76 @@
 .header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
 }
 
 .filter-card {
-  margin-bottom: 20px;
-}
-
-.filters {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  align-items: center;
+  margin-bottom: 16px;
+  border-radius: 12px;
 }
 
 .table-card {
   border-radius: 12px;
 }
 
-mat-form-field {
-  width: 220px;
+.filters {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.filters mat-form-field {
+  width: 210px;
+}
+
+::ng-deep .filters .mat-mdc-form-field-infix {
+  min-height: 25px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
+
+::ng-deep .filters .mdc-notched-outline {
+  height: 35px !important;
+}
+
+::ng-deep .filters .mat-mdc-input-element {
+  font-size: 12px !important;
+}
+
+::ng-deep .filters .mdc-floating-label {
+  font-size: 12px !important;
+}
+
+::ng-deep .filters .mat-mdc-select-trigger {
+  min-height: 25px;
+}
+
+::ng-deep .filters .mat-mdc-select-value {
+  font-size: 12px !important;
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.actions button {
+  height: 35px !important;
+  min-width: 90px;
+  font-size: 12px;
+  padding: 0 12px;
+}
+
+.actions button mat-icon {
+  transform: scale(0.8);
+  margin-right: 4px;
+}
+
+.actions button[color="warn"] {
+  min-width: 80px;
 }
 
 table {
@@ -32,11 +82,11 @@ table {
 }
 
 .mat-mdc-header-row {
-  height: 44px !important;
+  height: 42px !important;
 }
 
 .mat-mdc-row {
-  height: 46px !important;
+  height: 44px !important;
 }
 
 .mat-mdc-cell,
@@ -44,6 +94,14 @@ table {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
   font-size: 14px;
+}
+
+.field-error .mat-mdc-text-field-wrapper {
+  border-color: #f44336 !important;
+}
+
+.field-error .mat-mdc-floating-label {
+  color: #f44336 !important;
 }
 
 mat-paginator {
@@ -55,4 +113,22 @@ td {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 300px;
+}
+
+td button {
+  transform: scale(0.9);
+}
+
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+  }
+
+  .filters mat-form-field {
+    width: 100%;
+  }
+
+  .filters button {
+    width: 100%;
+  }
 }

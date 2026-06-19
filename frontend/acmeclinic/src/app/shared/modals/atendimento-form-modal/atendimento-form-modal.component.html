@@ -9,11 +9,26 @@
       <mat-form-field>
         <mat-label> Paciente </mat-label>
 
-        <mat-select formControlName="pacienteId">
-          <mat-option *ngFor="let paciente of pacientes" [value]="paciente.id">
+        <input
+          matInput
+          [(ngModel)]="pacienteBusca"
+          [ngModelOptions]="{ standalone: true }"
+          (ngModelChange)="filtrarPacientes()"
+          [matAutocomplete]="auto"
+        />
+
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          [autoActiveFirstOption]="false"
+          (optionSelected)="selecionarPaciente($event.option.value)"
+        >
+          <mat-option
+            *ngFor="let paciente of pacientesFiltrados"
+            [value]="paciente"
+          >
             {{ paciente.nome }}
           </mat-option>
-        </mat-select>
+        </mat-autocomplete>
       </mat-form-field>
 
       <mat-form-field>
@@ -33,9 +48,9 @@
       <mat-label> Status </mat-label>
 
       <mat-select formControlName="status">
-        <mat-option value="ATIVO"> Ativo </mat-option>
+        <mat-option value="Ativo"> Ativo </mat-option>
 
-        <mat-option value="INATIVO"> Inativo </mat-option>
+        <mat-option value="Inativo"> Inativo </mat-option>
       </mat-select>
     </mat-form-field>
   </form>

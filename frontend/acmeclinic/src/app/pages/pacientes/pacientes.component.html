@@ -23,17 +23,30 @@
           <mat-select placeholder="Status" [(ngModel)]="filter.status">
             <mat-option value=""> Todos </mat-option>
 
-            <mat-option value="ATIVO"> Ativo </mat-option>
+            <mat-option value="Ativo"> Ativo </mat-option>
 
-            <mat-option value="INATIVO"> Inativo </mat-option>
+            <mat-option value="Inativo"> Inativo </mat-option>
           </mat-select>
         </mat-form-field>
 
-        <button mat-raised-button (click)="aplicarFiltro()">
-          <mat-icon>search</mat-icon>
+        <div class="actions">
+          <button mat-raised-button color="primary" (click)="aplicarFiltro()">
+            <mat-icon> search </mat-icon>
 
-          Filtrar
-        </button>
+            Filtrar
+          </button>
+
+          <button
+            *ngIf="temFiltroAtivo()"
+            mat-stroked-button
+            color="warn"
+            (click)="limparFiltro()"
+          >
+            <mat-icon> close </mat-icon>
+
+            Limpar
+          </button>
+        </div>
       </div>
     </mat-card-content>
   </mat-card>
@@ -81,8 +94,22 @@
               <mat-icon>edit</mat-icon>
             </button>
 
-            <button mat-icon-button (click)="inativar(row.id)">
+            <button
+              *ngIf="row.status === 'Ativo'"
+              mat-icon-button
+              (click)="inativar(row.id)"
+              matTooltip="Inativar"
+            >
               <mat-icon>block</mat-icon>
+            </button>
+
+            <button
+              *ngIf="row.status === 'Inativo'"
+              mat-icon-button
+              (click)="ativar(row.id)"
+              matTooltip="Ativar"
+            >
+              <mat-icon>check_circle</mat-icon>
             </button>
           </td>
         </ng-container>

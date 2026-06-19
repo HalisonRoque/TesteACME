@@ -8,8 +8,7 @@ export class PacienteService extends BaseService {
   url = `${environment.apiUrl}/api/pacientes`
 
   getAll(query: string = '') {
-    return this.http
-      .get(
+    return this.http.get(
         `${this.url}/all${query}`
       )
   }
@@ -22,8 +21,7 @@ export class PacienteService extends BaseService {
   }
 
   create(body: any) {
-    return this.http
-      .post(
+    return this.http.post(
         `${this.url}/create`,
         body
       )
@@ -33,24 +31,21 @@ export class PacienteService extends BaseService {
     id: number,
     body: any
   ) {
-    return this.http
-      .put(
+    return this.http.put(
         `${this.url}/${id}/update`,
         body
       )
   }
 
   activate(id: number) {
-    return this.http
-      .patch(
+    return this.http.patch(
         `${this.url}/${id}/ativar`,
         {}
       )
   }
 
   inactivate(id: number) {
-    return this.http
-      .patch(
+    return this.http.patch(
         `${this.url}/${id}/inativar`,
         {}
       )

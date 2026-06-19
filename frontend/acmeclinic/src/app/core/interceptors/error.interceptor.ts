@@ -18,8 +18,6 @@ export const errorInterceptor: HttpInterceptorFn = (
 
         console.error('Erro API:', message);
 
-        //alert(message);
-
         return throwError(
           () => error
         );

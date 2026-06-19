@@ -6,8 +6,9 @@ public interface IAtendimentoRepository
 {
     Task<int> CreateAtendimento(Atendimento atendimento);
 
-    Task<IEnumerable<Atendimento>> GetAllAntendimentos(
+    Task<IEnumerable<dynamic>> GetAllAntendimentos(
         int? pacienteId,
+        string? pacienteNome,
         string? status,
         DateTime? dataInicio,
         DateTime? dataFim,
@@ -19,6 +20,7 @@ public interface IAtendimentoRepository
 
     Task<int> Count(
         int? pacienteId,
+        string? pacienteNome,
         string? status,
         DateTime? dataInicio,
         DateTime? dataFim

@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  FormsModule,
   ReactiveFormsModule,
   FormBuilder,
   Validators
@@ -20,18 +21,21 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AtendimentoService } from '../../../core/services/atendimento.service';
 import { PacienteService } from '../../../core/services/paciente.service';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-atendimento-form-modal',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     MatDialogModule,
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatAutocompleteModule
   ],
   templateUrl: './atendimento-form-modal.component.html',
   styleUrl: './atendimento-form-modal.component.css'
@@ -40,9 +44,9 @@ import { PacienteService } from '../../../core/services/paciente.service';
 export class AtendimentoFormModalComponent implements OnInit {
 
   pacientes: any[] = [];
-
+  pacienteBusca = '';
+  pacientesFiltrados: any[] = [];
   loading = false;
-
   form!: ReturnType<FormBuilder['group']>;
 
   constructor(
@@ -58,30 +62,55 @@ export class AtendimentoFormModalComponent implements OnInit {
       pacienteId: [null, Validators.required],
       dataHora: ['', Validators.required],
       descricao: ['', Validators.required],
-      status: ['ATIVO', Validators.required]
+      status: ['Ativo', Validators.required]
     });
   }
 
   ngOnInit() {
     this.buscarPacientes();
 
+    setTimeout(() => {
+      this.pacientesFiltrados = [...this.pacientes];
+    });
+
     if (this.data) {
-      this.form.patchValue(
-        this.data
-      );
+      this.form.patchValue(this.data);
+      this.pacienteBusca = this.data.pacienteNome;
     }
   }
 
   buscarPacientes() {
     this.pacienteService
       .getAll(
-        '?status=ATIVO&page=1&pageSize=999'
+        '?status=Ativo&page=1&pageSize=999'
       )
       .subscribe(
         (res: any) => {
           this.pacientes = res.data;
+          this.pacientesFiltrados = res.data;
         }
       );
+  }
+
+  filtrarPacientes() {
+    const texto = this.pacienteBusca
+      .toLowerCase();
+
+    this.pacientesFiltrados = this.pacientes.filter(
+      p => p.nome
+        .toLowerCase()
+        .includes(texto)
+    );
+  }
+
+  selecionarPaciente(paciente: any) {
+    this.form
+      .get('pacienteId')
+      ?.setValue(
+        paciente.id
+      );
+
+    this.pacienteBusca = paciente.nome;
   }
 
   salvar() {

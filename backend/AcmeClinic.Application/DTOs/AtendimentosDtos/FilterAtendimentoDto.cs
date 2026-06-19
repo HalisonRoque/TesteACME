@@ -6,6 +6,8 @@ public class FilterAtendimentoDto : PaginationDto
 {
     public int? PacienteId { get; set; }
 
+    public string? PacienteNome { get; set; }
+
     public string? Status { get; set; }
 
     public DateTime? DataInicio { get; set; }

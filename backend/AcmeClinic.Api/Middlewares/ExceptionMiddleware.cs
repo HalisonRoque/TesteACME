@@ -35,9 +35,7 @@ public class ExceptionMiddleware
                 )
             );
         }
-        catch (
-            Exception
-        )
+        catch (Exception)
         {
             context.Response.StatusCode = 500;
 

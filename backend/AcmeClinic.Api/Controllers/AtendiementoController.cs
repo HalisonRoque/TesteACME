@@ -45,6 +45,7 @@ public class AtendimentosController : ControllerBase
     [HttpPatch("{id}/inativar")]
     public async Task<IActionResult> InactivateAtendimento(int id)
     {
+        Console.Write("meu end poit inativar", id);
         await _service.InactivateAtendimento(id);
         return NoContent();
     }
@@ -52,6 +53,7 @@ public class AtendimentosController : ControllerBase
     [HttpPatch("{id}/ativar")]
     public async Task<IActionResult> ActivateAtendimento(int id)
     {
+        Console.Write("meu end poit ativar", id);
         await _service.ActivateAtendimento(id);
         return NoContent();
     }

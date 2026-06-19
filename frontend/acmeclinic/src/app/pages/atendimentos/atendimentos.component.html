@@ -4,7 +4,6 @@
 
     <button mat-raised-button (click)="abrirModal()">
       <mat-icon> add </mat-icon>
-
       Novo Atendimento
     </button>
   </div>
@@ -13,41 +12,88 @@
     <mat-card-content>
       <div class="filters">
         <mat-form-field appearance="outline">
-          <mat-select placeholder="Paciente" [(ngModel)]="filter.pacienteId">
-            <mat-option> Todos </mat-option>
+          <input
+            matInput
+            placeholder="Paciente"
+            [(ngModel)]="pacienteBusca"
+            (ngModelChange)="filtrarPacientes()"
+            [matAutocomplete]="auto"
+          />
+
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            (optionSelected)="selecionarPaciente($event.option.value)"
+          >
+            <mat-option [value]="null"> Todos </mat-option>
 
             <mat-option
-              *ngFor="let paciente of pacientes"
-              [value]="paciente.id"
+              *ngFor="let paciente of pacientesFiltrados"
+              [value]="paciente"
             >
               {{ paciente.nome }}
             </mat-option>
-          </mat-select>
+          </mat-autocomplete>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <input matInput type="date" [(ngModel)]="filter.dataInicio" />
+          <mat-label>Data início</mat-label>
+
+          <input
+            matInput
+            type="date"
+            [(ngModel)]="filter.dataInicio"
+            name="dataInicio"
+            [max]="today"
+            (ngModelChange)="validarDatas()"
+          />
+
+          <mat-error *ngIf="dataInvalida">
+            Informe início e fim corretamente
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <input matInput type="date" [(ngModel)]="filter.dataFim" />
+          <mat-label>Data fim</mat-label>
+
+          <input
+            matInput
+            type="date"
+            [(ngModel)]="filter.dataFim"
+            name="dataFim"
+            [max]="today"
+            (ngModelChange)="validarDatas()"
+          />
+
+          <mat-error *ngIf="dataInvalida">
+            Informe início e fim corretamente
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-select placeholder="Status" [(ngModel)]="filter.status">
             <mat-option value=""> Todos </mat-option>
-
-            <mat-option value="ATIVO"> Ativo </mat-option>
-
-            <mat-option value="INATIVO"> Inativo </mat-option>
+            <mat-option value="Ativo"> Ativo </mat-option>
+            <mat-option value="Inativo"> Inativo </mat-option>
           </mat-select>
         </mat-form-field>
 
-        <button mat-raised-button (click)="aplicarFiltro()">
-          <mat-icon> search </mat-icon>
+        <div class="actions">
+          <button mat-raised-button color="primary" (click)="aplicarFiltro()">
+            <mat-icon> search </mat-icon>
+            Filtrar
+          </button>
 
-          Filtrar
-        </button>
+          <button
+            *ngIf="temFiltroAtivo()"
+            mat-stroked-button
+            color="warn"
+            (click)="limparFiltro()"
+          >
+            <mat-icon> close </mat-icon>
+
+            Limpar
+          </button>
+        </div>
       </div>
     </mat-card-content>
   </mat-card>
@@ -95,8 +141,22 @@
               <mat-icon> edit </mat-icon>
             </button>
 
-            <button mat-icon-button (click)="inativar(row.id)">
-              <mat-icon> block </mat-icon>
+            <button
+              *ngIf="row.status === 'Ativo'"
+              mat-icon-button
+              (click)="inativar(row.id)"
+              matTooltip="Inativar"
+            >
+              <mat-icon>block</mat-icon>
+            </button>
+
+            <button
+              *ngIf="row.status === 'Inativo'"
+              mat-icon-button
+              (click)="ativar(row.id)"
+              matTooltip="Ativar"
+            >
+              <mat-icon>check_circle</mat-icon>
             </button>
           </td>
         </ng-container>

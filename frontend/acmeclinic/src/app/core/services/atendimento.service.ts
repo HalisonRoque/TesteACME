@@ -24,15 +24,25 @@ export class AtendimentoService extends BaseService {
 
   update(id: number, body: any) {
     return this.http.put(
-      `${this.url}/update/${id}`,
+      `${this.url}/${id}/update`,
       body
     );
   }
 
   inactivate(id: number) {
-    return this.http.put(
-      `${this.url}/${id}`,
-      null
+    const test = this.http.patch(
+      `${this.url}/${id}/inativar`,
+      {}
     )
+    return test
+  }
+
+
+  activate(id: number) {
+    const test = this.http.patch(
+      `${this.url}/${id}/ativar`,
+      {}
+    )
+    return test
   }
 }

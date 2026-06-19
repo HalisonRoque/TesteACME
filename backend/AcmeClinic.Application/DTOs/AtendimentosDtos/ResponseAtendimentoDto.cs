@@ -6,6 +6,8 @@ public class ResponseAtendimentoDto
 
     public int PacienteId { get; set; }
 
+    public string PacienteNome { get; set; } = string.Empty;
+
     public DateTime DataHora { get; set; }
 
     public string Descricao { get; set; } = string.Empty;

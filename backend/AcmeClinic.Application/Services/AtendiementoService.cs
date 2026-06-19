@@ -58,33 +58,43 @@ public class AtendimentoService
 
     public async Task<PagedResponse<ResponseAtendimentoDto>> GetAllAtendimentos(FilterAtendimentoDto filter)
     {
-        var page = filter.Page <= 0 ? 1 : filter.Page;
-        var pageSize = filter.PageSize <= 0 ? 10 : filter.PageSize;
+        var page = filter.Page <= 0
+            ? 1
+            : filter.Page;
 
-        var data = await _repository.GetAllAntendimentos(
-            filter.PacienteId,
-            filter.Status,
-            filter.DataInicio,
-            filter.DataFim,
-            page,
-            pageSize
-        );
+        var pageSize = filter.PageSize <= 0
+            ? 10
+            : filter.PageSize;
 
-        var total = await _repository.Count(
-            filter.PacienteId,
-            filter.Status,
-            filter.DataInicio,
-            filter.DataFim
-        );
+        var data = await _repository
+            .GetAllAntendimentos(
+                filter.PacienteId,
+                filter.PacienteNome,
+                filter.Status,
+                filter.DataInicio,
+                filter.DataFim,
+                page,
+                pageSize
+            );
+
+        var total = await _repository
+            .Count(
+                filter.PacienteId,
+                filter.PacienteNome,
+                filter.Status,
+                filter.DataInicio,
+                filter.DataFim
+            );
 
         return new()
         {
             Data = data.Select(
                 a => new ResponseAtendimentoDto
                 {
-                    Id = a.Id,
-                    PacienteId = a.PacienteId,
-                    DataHora = a.DataHora,
+                    Id = Convert.ToInt32(a.Id),
+                    PacienteId = Convert.ToInt32(a.PacienteId),
+                    PacienteNome = a.PacienteNome,
+                    DataHora = DateTime.Parse(a.DataHora.ToString()),
                     Descricao = a.Descricao,
                     Status = a.Status
                 }),

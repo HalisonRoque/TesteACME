@@ -42,8 +42,9 @@ public class AtendimentoRepository : IAtendimentoRepository
         );
     }
 
-    public async Task<IEnumerable<Atendimento>> GetAllAntendimentos(
+    public async Task<IEnumerable<dynamic>> GetAllAntendimentos(
         int? pacienteId,
+        string? pacienteNome,
         string? status,
         DateTime? dataInicio,
         DateTime? dataFim,
@@ -55,42 +56,60 @@ public class AtendimentoRepository : IAtendimentoRepository
 
         var offset = (page - 1) * pageSize;
 
-        return await conn.QueryAsync<Atendimento>(
-            @"
-                SELECT *
-                FROM Atendimentos
+        return await conn.QueryAsync(
+        @"
+            SELECT
+                a.Id,
+                a.PacienteId,
+                p.Nome AS PacienteNome,
+                a.DataHora,
+                a.Descricao,
+                a.Status
 
-                WHERE (
-                @pacienteId IS NULL
-                OR PacienteId=@pacienteId
-                )
+            FROM Atendimentos a
+            INNER JOIN Pacientes p
+                ON p.Id = a.PacienteId
 
-                AND (
-                @status IS NULL
-                OR Status=@status
-                )
+            WHERE(
+                @pacienteId IS NULL OR a.PacienteId=@pacienteId
+            )
 
-                AND (
+            AND (
+                @pacienteNome IS NULL
+                OR @pacienteNome=''
+                OR p.Nome LIKE '%' || @pacienteNome || '%'
+            )
+
+            AND (
+                @status IS NULL 
+                OR @status=''
+                OR a.Status=@status
+            )
+
+            AND(
                 @dataInicio IS NULL
-                OR DataHora>=@dataInicio
-                )
+                OR a.DataHora>=@dataInicio
+            )
 
-                AND (
+            AND (
                 @dataFim IS NULL
-                OR DataHora<=@dataFim
-                )
+                OR a.DataHora<=@dataFim
+            )
 
-                LIMIT @pageSize
-                OFFSET @offset
+            ORDER BY a.DataHora DESC
+            LIMIT @pageSize
+            OFFSET @offset
             ",
-            new {
-            pacienteId,
-            status,
-            dataInicio,
-            dataFim,
-            pageSize,
-            offset
-        });
+            new
+            {
+                pacienteId,
+                pacienteNome,
+                status,
+                dataInicio,
+                dataFim,
+                pageSize,
+                offset
+            });
     }
 
     public async Task<Atendimento?> GetById(int id)
@@ -148,10 +167,11 @@ public class AtendimentoRepository : IAtendimentoRepository
     }
 
     public async Task<int> Count(
-        int? pacienteId,
-        string? status,
-        DateTime? dataInicio,
-        DateTime? dataFim
+    int? pacienteId,
+    string? pacienteNome,
+    string? status,
+    DateTime? dataInicio,
+    DateTime? dataFim
     )
     {
         using var conn = _context.Create();
@@ -159,9 +179,39 @@ public class AtendimentoRepository : IAtendimentoRepository
         return await conn.ExecuteScalarAsync<int>(
         @"
             SELECT COUNT(*)
-            FROM Atendimentos
+            FROM Atendimentos a
+
+            INNER JOIN Pacientes p
+                ON p.Id = a.PacienteId
+
+            WHERE (@pacienteId IS NULL OR a.PacienteId=@pacienteId)
+
+            AND (
+                    @pacienteNome IS NULL
+                    OR @pacienteNome=''
+                    OR p.Nome LIKE '%' || @pacienteNome || '%'
+            )
+
+            AND (
+                @status IS NULL
+                OR @status=''
+                OR a.Status=@status)
+
+            AND
+                (@dataInicio IS NULL
+                OR a.DataHora>=@dataInicio)
+
+            AND
+                (@dataFim IS NULL
+                OR a.DataHora<=@dataFim)
         ",
-        new {}
-        );
+        new
+        {
+            pacienteId,
+            pacienteNome,
+            status,
+            dataInicio,
+            dataFim
+        });
     }
 }

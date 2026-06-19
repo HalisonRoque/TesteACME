@@ -2,3 +2,23 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.warning-snackbar .mdc-snackbar__surface {
+  background-color: #f59e0b !important;
+  color: black !important;
+}
+
+.success-snackbar .mdc-snackbar__surface {
+  background-color: #16a34a !important;
+  color: white !important;
+}
+
+.error-snackbar .mdc-snackbar__surface {
+  background-color: #dc2626 !important;
+  color: white !important;
+}
+
+.info-snackbar .mdc-snackbar__surface {
+  background-color: #2563eb !important;
+  color: white !important;
+}

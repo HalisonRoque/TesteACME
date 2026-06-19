@@ -10,7 +10,7 @@
 }
 
 .filter-card {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   border-radius: 12px;
 }
 
@@ -20,13 +20,70 @@
 
 .filters {
   display: flex;
-  gap: 16px;
-  align-items: center;
+  gap: 10px;
+  align-items: flex-start;
   flex-wrap: wrap;
 }
 
-mat-form-field {
-  width: 240px;
+.filters mat-form-field {
+  width: 210px;
+}
+
+/* altura interna */
+::ng-deep .filters .mat-mdc-form-field-infix {
+  min-height: 25px !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
+
+/* caixa do input */
+::ng-deep .filters .mdc-notched-outline {
+  height: 35px !important;
+}
+
+/* input */
+::ng-deep .filters .mat-mdc-input-element {
+  font-size: 12px !important;
+}
+
+/* label / placeholder */
+::ng-deep .filters .mdc-floating-label {
+  font-size: 12px !important;
+}
+
+/* select */
+::ng-deep .filters .mat-mdc-select-trigger {
+  min-height: 25px;
+}
+
+::ng-deep .filters .mat-mdc-select-value {
+  font-size: 12px !important;
+}
+
+/* área dos botões */
+.actions {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+/* botões menores */
+.actions button {
+  height: 35px !important;
+  min-width: 90px;
+  font-size: 12px;
+  padding: 0 12px;
+  margin-top: 0;
+}
+
+/* ícones menores */
+.actions button mat-icon {
+  transform: scale(0.8);
+  margin-right: 4px;
+}
+
+.actions button[color="warn"] {
+  min-width: 80px;
 }
 
 table {
@@ -34,11 +91,11 @@ table {
 }
 
 .mat-mdc-header-row {
-  height: 44px !important;
+  height: 42px !important;
 }
 
 .mat-mdc-row {
-  height: 48px !important;
+  height: 44px !important;
 }
 
 .mat-mdc-cell,
@@ -53,5 +110,24 @@ mat-paginator {
 }
 
 td button {
-  transform: scale(.9);
+  transform: scale(0.9);
+}
+
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+  }
+
+  .filters mat-form-field {
+    width: 100%;
+  }
+
+  .actions {
+    width: 100%;
+  }
+
+  .actions button {
+    flex: 1;
+    height: 35px !important;
+  }
 }

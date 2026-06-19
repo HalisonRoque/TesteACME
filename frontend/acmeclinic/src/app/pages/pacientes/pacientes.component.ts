@@ -30,14 +30,11 @@ import { ConfirmModalComponent } from '../../shared/modals/confirm-modal/confirm
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    PacienteFormModalComponent,
-    ConfirmModalComponent
   ],
   templateUrl: './pacientes.component.html',
   styleUrl: './pacientes.component.css'
 })
 export class PacientesComponent implements OnInit {
-
   displayedColumns = [
     'nome',
     'cpf',
@@ -47,9 +44,7 @@ export class PacientesComponent implements OnInit {
   ];
 
   pacientes: Paciente[] = [];
-
   total = 0;
-
   filter: FilterPaciente = {
     nome: '',
     cpf: '',
@@ -118,6 +113,26 @@ export class PacientesComponent implements OnInit {
       );
   }
 
+  temFiltroAtivo() {
+    return !!(
+      this.filter.nome ||
+      this.filter.cpf ||
+      this.filter.status
+    );
+  }
+
+  limparFiltro() {
+    this.filter = {
+      nome: '',
+      cpf: '',
+      status: '',
+      page: 1,
+      pageSize: 10
+    };
+
+    this.buscar();
+  }
+
   inativar(id: number) {
     const dialogRef = this.dialog.open(
       ConfirmModalComponent,
@@ -125,7 +140,7 @@ export class PacientesComponent implements OnInit {
         width: '400px',
         data: {
           titulo: 'Inativar Paciente',
-          mensagem: 'Deseja continuar?'
+          mensagem: 'Deseja realmente inativar este paciente?'
         }
       }
     );
@@ -140,6 +155,36 @@ export class PacientesComponent implements OnInit {
 
           this.pacienteService
             .inactivate(id)
+            .subscribe(() => {
+              this.buscar();
+            }
+            );
+        }
+      );
+  }
+
+  ativar(id: number) {
+    const dialogRef = this.dialog.open(
+      ConfirmModalComponent,
+      {
+        width: '400px',
+        data: {
+          titulo: 'Ativar Paciente',
+          mensagem: 'Deseja realmente Ativar este paciente?'
+        }
+      }
+    );
+
+    dialogRef
+      .afterClosed()
+      .subscribe(
+        (confirm) => {
+          if (!confirm) {
+            return;
+          }
+
+          this.pacienteService
+            .activate(id)
             .subscribe(() => {
               this.buscar();
             }
