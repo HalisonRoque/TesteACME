@@ -20,7 +20,7 @@ public class AtendimentoService
 
     public async Task<int> CreateAtendimento(CreateAtendimentoDto dto)
     {
-        if (dto.DataHora > DateTime.Now)
+        if (dto.Data > DateTime.Now)
         {
             throw new ValidationException("Não é permitido atendimento futuro");
         }
@@ -48,7 +48,8 @@ public class AtendimentoService
         var atendimento = new Atendimento
         {
             PacienteId = dto.PacienteId,
-            DataHora = dto.DataHora,
+            Data = dto.Data,
+            Hora = dto.Hora,
             Descricao = dto.Descricao,
             Status = dto.Status
         };
@@ -94,7 +95,8 @@ public class AtendimentoService
                     Id = Convert.ToInt32(a.Id),
                     PacienteId = Convert.ToInt32(a.PacienteId),
                     PacienteNome = a.PacienteNome,
-                    DataHora = DateTime.Parse(a.DataHora.ToString()),
+                    Data = Convert.ToDateTime(a.Data).ToString("yyyy-MM-dd"),
+                    Hora = a.Hora,
                     Descricao = a.Descricao,
                     Status = a.Status
                 }),
@@ -118,7 +120,8 @@ public class AtendimentoService
         {
             Id = atendimento.Id,
             PacienteId = atendimento.PacienteId,
-            DataHora = atendimento.DataHora,
+            Data = atendimento.Data.ToString("yyyy-MM-dd"),
+            Hora = atendimento.Hora,
             Descricao = atendimento.Descricao,
             Status = atendimento.Status
         };
@@ -126,7 +129,7 @@ public class AtendimentoService
 
     public async Task UpdateAtendimento(int id, UpdateAtendimentoDto dto)
     {
-        if (dto.DataHora > DateTime.Now)
+        if (dto.Data > DateTime.Now)
         {
             throw new ValidationException("Data futura não permitida");
         }
@@ -146,7 +149,8 @@ public class AtendimentoService
             throw new NotFoundException("Atendimento não encontrado");
         }
 
-        atendimento.DataHora = dto.DataHora;
+        atendimento.Data = dto.Data;
+        atendimento.Hora = dto.Hora;
         atendimento.Descricao = dto.Descricao;
         atendimento.Status = dto.Status;
 

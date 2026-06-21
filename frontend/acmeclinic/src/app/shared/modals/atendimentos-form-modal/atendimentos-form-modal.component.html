@@ -1,0 +1,52 @@
+<h2 mat-dialog-title>
+  {{ response ? "Editar" : "Novo" }}
+  Atendimento
+</h2>
+
+<mat-dialog-content>
+  <form class="form" [formGroup]="form">
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Paciente</mat-label>
+        <input matInput formControlName="pacienteNome" [matAutocomplete]="auto" (input)="filtrarPacientes()" />
+
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selecionarPaciente($event.option.value)">
+          <mat-option *ngFor="let paciente of pacientesFiltrados" [value]="paciente">
+            {{ paciente.nome }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Data</mat-label>
+        <input matInput type="date" formControlName="data" />
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Hora</mat-label>
+        <input matInput type="time" formControlName="hora" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option value="">Todos</mat-option>
+          <mat-option value="Ativo"> Ativo </mat-option>
+          <mat-option value="Inativo"> Inativo </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Descrição</mat-label>
+      <textarea matInput rows="3" formControlName="descricao"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button color="warn" (click)="fechar()"> Cancelar </button>
+  <button mat-raised-button color="primary" (click)="salvar()"> Salvar </button>
+</mat-dialog-actions>

@@ -17,10 +17,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialog } from '@angular/material/dialog';
-import { AtendimentoFormModalComponent } from '../../shared/modals/atendimento-form-modal/atendimento-form-modal.component';
+import { AtendimentosFormModalComponent } from '../../shared/modals/atendimentos-form-modal/atendimentos-form-modal.component';
 import { ConfirmModalComponent } from '../../shared/modals/confirm-modal/confirm-modal.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NotificationSnackBar } from '../../shared/notification/notification.snackBar';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup
+} from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-atendimento',
@@ -28,6 +35,7 @@ import { NotificationSnackBar } from '../../shared/notification/notification.sna
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
     MatCardModule,
@@ -36,7 +44,9 @@ import { NotificationSnackBar } from '../../shared/notification/notification.sna
     MatSelectModule,
     MatButtonModule,
     MatIconModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   templateUrl: './atendimentos.component.html',
   styleUrl: './atendimentos.component.css'
@@ -44,7 +54,8 @@ import { NotificationSnackBar } from '../../shared/notification/notification.sna
 export class AtendimentoComponent implements OnInit {
   displayedColumns = [
     'paciente',
-    'dataHora',
+    'data',
+    'hora',
     'descricao',
     'status',
     'acoes'
@@ -55,7 +66,7 @@ export class AtendimentoComponent implements OnInit {
   pacienteBusca: any = '';
   pacientesFiltrados: any[] = [];
   total = 0;
-  dataInvalida = false;
+  range!: FormGroup;
 
   filter: FilterAtendimento = {
     pacienteId: undefined,
@@ -70,17 +81,20 @@ export class AtendimentoComponent implements OnInit {
     private atendimentoService: AtendimentoService,
     private pacienteService: PacienteService,
     private dialog: MatDialog,
-    private snackBar: NotificationSnackBar
+    private snackBar: NotificationSnackBar,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit() {
     this.today = new Date().toISOString().split('T')[0];
+
+    this.range = this.fb.group({
+      start: [null],
+      end: [null]
+    });
+
     this.buscarPacientes();
     this.buscar();
-  }
-
-  private toDate(value: string): Date {
-    return new Date(value + 'T00:00:00');
   }
 
   buscarPacientes() {
@@ -89,7 +103,6 @@ export class AtendimentoComponent implements OnInit {
       .subscribe((res: any) => {
 
         this.pacientes = res.data;
-
         this.pacientesFiltrados = res.data;
       });
   }
@@ -109,15 +122,20 @@ export class AtendimentoComponent implements OnInit {
       .subscribe((res: any) => {
 
         this.atendimentos = res.data;
-
         this.total = res.total;
       });
   }
 
   aplicarFiltro() {
-    this.validarDatas();
+    const { start, end } = this.range.value;
 
-    if (this.dataInvalida) {
+    this.filter.dataInicio = start?.toISOString().split('T')[0] ?? '';
+    this.filter.dataFim = end?.toISOString().split('T')[0] ?? '';
+
+    if ((start && !end) || (!start && end)) {
+      this.snackBar.warning(
+        'Selecione início e fim'
+      );
       return;
     }
 
@@ -130,24 +148,24 @@ export class AtendimentoComponent implements OnInit {
     this.buscar();
   }
 
-  abrirModal(atendimento?: Atendimento) {
-    const dialogRef = this.dialog.open(
-      AtendimentoFormModalComponent,
-      {
-        width: '800px',
-        data: atendimento ?? null
-      }
-    );
+  abrirModal(atendimento?: any) {
+    const dialogRef = this.dialog.open(AtendimentosFormModalComponent, {
+      width: '800px',
+      data: atendimento ?? null
+    });
 
-    dialogRef
-      .afterClosed()
-      .subscribe(
-        (saved) => {
-          if (saved) {
-            this.buscar();
-          }
-        }
-      );
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) return;
+
+      if (atendimento?.id) {
+        this.atendimentoService.update(atendimento.id, result)
+          .subscribe(() => this.buscar());
+        return;
+      }
+
+      this.atendimentoService.create(result)
+        .subscribe(() => this.buscar());
+    });
   }
 
   temFiltroAtivo() {
@@ -161,8 +179,9 @@ export class AtendimentoComponent implements OnInit {
   }
 
   limparFiltro() {
+    this.range.reset();
     this.pacienteBusca = '';
-    this.pacientesFiltrados = this.pacientes;
+    this.pacientesFiltrados = [...this.pacientes];
     this.filter = {
       pacienteId: undefined,
       pacienteNome: undefined,
@@ -183,7 +202,6 @@ export class AtendimentoComponent implements OnInit {
       .toLowerCase();
 
     this.filter.pacienteNome = texto || undefined;
-
     this.pacientesFiltrados = this.pacientes.filter(
       p => p.nome
         ?.toLowerCase()
@@ -210,94 +228,17 @@ export class AtendimentoComponent implements OnInit {
     this.pacienteBusca = paciente.nome;
   }
 
-  // validarDatas() {
-  //   this.dataInvalida = false;
-
-  //   const inicio = this.filter.dataInicio;
-  //   const fim = this.filter.dataFim;
-
-  //   const hoje = new Date();
-  //   hoje.setHours(0, 0, 0, 0);
-
-  //   if ((!!inicio && !fim) || (!inicio && !!fim)) {
-  //     this.dataInvalida = true;
-  //     return;
-  //   }
-
-  //   if (inicio && fim) {
-  //     const dInicio = this.toDate(inicio);
-  //     const dFim = this.toDate(fim);
-
-  //     if (dInicio > hoje || dFim > hoje) {
-  //       this.dataInvalida = true;
-  //       return;
-  //     }
-
-  //     if (dFim < dInicio) {
-  //       this.dataInvalida = true;
-  //       return;
-  //     }
-  //   }
-  // }
-
-  validarDatas() {
-    console.log('==============================');
-    console.log('VALIDANDO DATAS');
-    console.log('Data início:', this.filter.dataInicio);
-    console.log('Data fim:', this.filter.dataFim);
-
-    this.dataInvalida = false;
-
-    const inicio = this.filter.dataInicio;
-    const fim = this.filter.dataFim;
-
-    const hoje = new Date();
-    hoje.setHours(0, 0, 0, 0);
-
-    console.log('HOJE:', hoje);
-
-    if ((inicio && !fim) || (!inicio && fim)) {
-      this.dataInvalida = true;
-
-      this.snackBar.warning('Preencha início e fim juntos');
-      return;
-    }
-
-    if (inicio && fim) {
-      const dInicio = new Date(inicio + 'T00:00:00');
-      const dFim = new Date(fim + 'T00:00:00');
-
-      console.log('Data início convertida:', dInicio);
-      console.log('Data fim convertida:', dFim);
-
-      if (dInicio > hoje || dFim > hoje) {
-        console.warn('❌ ERRO: Data maior que hoje');
-        this.dataInvalida = true;
-        return;
-      }
-
-      if (dFim < dInicio) {
-        console.warn('❌ ERRO: Data fim menor que início');
-        this.dataInvalida = true;
-        return;
-      }
-    }
-
-    console.log('✔ Datas válidas');
-  }
-
   inativar(id: number) {
-    const dialogRef =
-      this.dialog.open(
-        ConfirmModalComponent,
-        {
-          width: '420px',
-          data: {
-            titulo: 'Inativar Atendimento',
-            mensagem: 'Deseja realmente inativar este atendimento?'
-          }
+    const dialogRef = this.dialog.open(
+      ConfirmModalComponent,
+      {
+        width: '420px',
+        data: {
+          titulo: 'Inativar Atendimento',
+          mensagem: 'Deseja realmente inativar este atendimento?'
         }
-      );
+      }
+    );
 
     dialogRef
       .afterClosed()
@@ -315,17 +256,16 @@ export class AtendimentoComponent implements OnInit {
   }
 
   ativar(id: number) {
-    const dialogRef =
-      this.dialog.open(
-        ConfirmModalComponent,
-        {
-          width: '420px',
-          data: {
-            titulo: 'Ativar Atendimento',
-            mensagem: 'Deseja realmente ativar este atendimento?'
-          }
+    const dialogRef = this.dialog.open(
+      ConfirmModalComponent,
+      {
+        width: '420px',
+        data: {
+          titulo: 'Ativar Atendimento',
+          mensagem: 'Deseja realmente ativar este atendimento?'
         }
-      );
+      }
+    );
 
     dialogRef
       .afterClosed()

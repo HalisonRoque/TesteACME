@@ -35,20 +35,18 @@ public class ExceptionMiddleware
                 )
             );
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            context.Response.StatusCode = 500;
+            Console.WriteLine(ex.ToString());
 
-            await context.Response
-            .WriteAsync(
-                JsonSerializer
-                .Serialize(
-                    new
-                    {
-                        error = "Erro interno"
-                    }
-                )
-            );
+            context.Response.StatusCode = 500;
+            context.Response.ContentType = "application/json";
+
+            await context.Response.WriteAsync(JsonSerializer.Serialize(new
+            {
+                error = ex.Message,
+                stackTrace = ex.StackTrace
+            }));
         }
     }
 }

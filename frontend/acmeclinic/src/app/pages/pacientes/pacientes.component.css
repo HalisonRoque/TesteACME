@@ -29,29 +29,24 @@
   width: 210px;
 }
 
-/* altura interna */
 ::ng-deep .filters .mat-mdc-form-field-infix {
   min-height: 25px !important;
   padding-top: 4px !important;
   padding-bottom: 4px !important;
 }
 
-/* caixa do input */
 ::ng-deep .filters .mdc-notched-outline {
   height: 35px !important;
 }
 
-/* input */
 ::ng-deep .filters .mat-mdc-input-element {
   font-size: 12px !important;
 }
 
-/* label / placeholder */
 ::ng-deep .filters .mdc-floating-label {
   font-size: 12px !important;
 }
 
-/* select */
 ::ng-deep .filters .mat-mdc-select-trigger {
   min-height: 25px;
 }
@@ -60,14 +55,12 @@
   font-size: 12px !important;
 }
 
-/* área dos botões */
 .actions {
   display: flex;
   gap: 6px;
   align-items: flex-start;
 }
 
-/* botões menores */
 .actions button {
   height: 35px !important;
   min-width: 90px;
@@ -76,7 +69,6 @@
   margin-top: 0;
 }
 
-/* ícones menores */
 .actions button mat-icon {
   transform: scale(0.8);
   margin-right: 4px;
@@ -105,12 +97,53 @@ table {
   font-size: 14px;
 }
 
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.status-ativo {
+  background-color: #70e292;
+}
+
+.status-inativo {
+  background-color: #ea6e6e;
+}
+
 mat-paginator {
   margin-top: 8px;
 }
 
 td button {
   transform: scale(0.9);
+}
+
+.btn-table-edit {
+  color: #1e40af !important;
+  background-color: #eff6ff !important;
+}
+.btn-table-edit:hover {
+  background-color: #dbeafe !important;
+}
+
+.btn-table-danger {
+  color: #810101 !important;
+  background-color: #f1dcdc !important;
+}
+.btn-table-danger:hover {
+  background-color: #f29f9f !important;
+}
+
+.btn-table-success {
+  color: #065f46 !important;
+  background-color: #ecfdf5 !important;
+}
+.btn-table-success:hover {
+  background-color: #d1fae5 !important;
 }
 
 @media (max-width: 768px) {

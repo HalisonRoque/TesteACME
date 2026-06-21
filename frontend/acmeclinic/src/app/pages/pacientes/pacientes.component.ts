@@ -73,7 +73,6 @@ export class PacientesComponent implements OnInit {
     this.pacienteService
       .getAll(query.replace(/\s/g, ''))
       .subscribe((response: any) => {
-
         this.pacientes = response.data;
         this.total = response.total;
       });
@@ -86,9 +85,7 @@ export class PacientesComponent implements OnInit {
 
   trocarPagina(event: PageEvent) {
     this.filter.page = event.pageIndex + 1;
-
     this.filter.pageSize = event.pageSize;
-
     this.buscar();
   }
 
@@ -192,5 +189,4 @@ export class PacientesComponent implements OnInit {
         }
       );
   }
-
 }

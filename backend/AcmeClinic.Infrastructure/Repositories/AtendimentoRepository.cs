@@ -18,25 +18,23 @@ public class AtendimentoRepository : IAtendimentoRepository
 
         return await conn.ExecuteScalarAsync<int>(
         @"
-
-            INSERT INTO Atendimentos
-            (
-            PacienteId,
-            DataHora,
-            Descricao,
-            Status
+            INSERT INTO Atendimentos (
+                PacienteId,
+                Data,
+                Hora,
+                Descricao,
+                Status
             )
 
-            VALUES
-            (
-            @PacienteId,
-            @DataHora,
-            @Descricao,
-            @Status
+            VALUES(
+                @PacienteId,
+                @Data,
+                @Hora,
+                @Descricao,
+                @Status
             );
 
             SELECT last_insert_rowid();
-
             ",
             atendimento
         );
@@ -62,7 +60,8 @@ public class AtendimentoRepository : IAtendimentoRepository
                 a.Id,
                 a.PacienteId,
                 p.Nome AS PacienteNome,
-                a.DataHora,
+                a.Data,
+                a.Hora,
                 a.Descricao,
                 a.Status
 
@@ -88,15 +87,15 @@ public class AtendimentoRepository : IAtendimentoRepository
 
             AND(
                 @dataInicio IS NULL
-                OR a.DataHora>=@dataInicio
+                OR a.Data>=@dataInicio
             )
 
             AND (
                 @dataFim IS NULL
-                OR a.DataHora<=@dataFim
+                OR a.Data<=@dataFim
             )
 
-            ORDER BY a.DataHora DESC
+            ORDER BY a.Data DESC
             LIMIT @pageSize
             OFFSET @offset
             ",
@@ -117,8 +116,8 @@ public class AtendimentoRepository : IAtendimentoRepository
         using var conn = _context.Create();
 
         return await conn.QueryFirstOrDefaultAsync<Atendimento>(
-                "SELECT * FROM Atendimentos WHERE Id=@id",
-                new { id }
+            "SELECT * FROM Atendimentos WHERE Id=@id",
+            new { id }
         );
     }
 
@@ -130,13 +129,14 @@ public class AtendimentoRepository : IAtendimentoRepository
         @"
             UPDATE Atendimentos    
             SET
-            DataHora=@DataHora,
+            Data=@Data,
+            Hora=@Hora,
             Descricao=@Descricao,
             Status=@Status
 
             WHERE Id=@Id
-            ",
-            atendimento
+        ",
+        atendimento
         );
     }
 
@@ -187,23 +187,26 @@ public class AtendimentoRepository : IAtendimentoRepository
             WHERE (@pacienteId IS NULL OR a.PacienteId=@pacienteId)
 
             AND (
-                    @pacienteNome IS NULL
-                    OR @pacienteNome=''
-                    OR p.Nome LIKE '%' || @pacienteNome || '%'
+                @pacienteNome IS NULL
+                OR @pacienteNome=''
+                OR p.Nome LIKE '%' || @pacienteNome || '%'
             )
 
             AND (
                 @status IS NULL
                 OR @status=''
-                OR a.Status=@status)
+                OR a.Status=@status
+            )
 
-            AND
-                (@dataInicio IS NULL
-                OR a.DataHora>=@dataInicio)
+            AND (
+                @dataInicio IS NULL
+                OR a.Data>=@dataInicio
+            )
 
-            AND
-                (@dataFim IS NULL
-                OR a.DataHora<=@dataFim)
+            AND (
+                @dataFim IS NULL
+                OR a.Data<=@dataFim
+            )
         ",
         new
         {

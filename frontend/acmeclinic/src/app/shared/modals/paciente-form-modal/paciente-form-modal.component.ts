@@ -36,7 +36,6 @@ import { PacienteService } from '../../../core/services/paciente.service';
   styleUrl: './paciente-form-modal.component.css'
 })
 export class PacienteFormModalComponent implements OnInit {
-
   form!: ReturnType<FormBuilder['group']>;
   loading = false;
 
@@ -60,7 +59,6 @@ export class PacienteFormModalComponent implements OnInit {
       complemento: [''],
       status: ['ATIVO', Validators.required]
     });
-
   }
 
   ngOnInit() {

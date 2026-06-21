@@ -15,6 +15,7 @@ export class AtendimentoService extends BaseService {
   }
 
   create(body: any) {
+    console.log("body", body);
     return this.http
       .post(
         `${this.url}/create`,
@@ -23,6 +24,7 @@ export class AtendimentoService extends BaseService {
   }
 
   update(id: number, body: any) {
+    console.log("body", body);
     return this.http.put(
       `${this.url}/${id}/update`,
       body

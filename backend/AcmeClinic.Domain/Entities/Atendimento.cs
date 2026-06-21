@@ -6,7 +6,9 @@ public class Atendimento
 
     public int PacienteId { get; set; }
 
-    public DateTime DataHora { get; set; }
+    public DateTime Data { get; set; }
+
+    public string Hora { get; set; }
 
     public string Descricao { get; set; }
 

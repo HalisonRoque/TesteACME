@@ -8,7 +8,9 @@ public class ResponseAtendimentoDto
 
     public string PacienteNome { get; set; } = string.Empty;
 
-    public DateTime DataHora { get; set; }
+    public string Data { get; set; } = string.Empty;
+
+    public string Hora { get; set; } = string.Empty; 
 
     public string Descricao { get; set; } = string.Empty;
 

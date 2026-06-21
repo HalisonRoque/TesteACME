@@ -2,7 +2,8 @@ export interface Atendimento {
   id: number,
   pacienteId: number,
   pacienteNome: string,
-  dataHora: string,
+  data: string,
+  hora: string,
   descricao: string,
   status: string,
 }

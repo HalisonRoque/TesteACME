@@ -1,0 +1,69 @@
+mat-dialog-content {
+  width: 100%;
+  max-width: 620px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-top: 15px !important;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  padding-top: 5px;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.row mat-form-field {
+  flex: 1;
+  min-width: 0;
+}
+
+mat-form-field {
+  width: 10%;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-text-field-wrapper {
+  overflow: visible !important;
+}
+
+.mat-mdc-input-element {
+  text-overflow: ellipsis;
+}
+
+mat-dialog-content {
+  width: 100%;
+  max-width: 620px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-top: 10px;
+}
+
+textarea {
+  resize: none;
+}
+
+button[color="warn"] {
+  background: #ee4f4f;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+
+  mat-dialog-content {
+    max-width: 100%;
+  }
+}

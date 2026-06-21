@@ -12,9 +12,7 @@ public static class DatabaseInitializer
         conn.Open();
 
         conn.Execute(@"
-
             CREATE TABLE IF NOT EXISTS Pacientes(
-
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
 
                 Nome VARCHAR(150) NOT NULL,
@@ -37,16 +35,16 @@ public static class DatabaseInitializer
 
                 Status VARCHAR(10) NOT NULL
                     CHECK(Status IN ('Ativo','Inativo'))
-
             );
 
             CREATE TABLE IF NOT EXISTS Atendimentos(
-
                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
 
                 PacienteId INTEGER NOT NULL,
 
-                DataHora DATETIME NOT NULL,
+                Data DATE NOT NULL,
+
+                Hora TEXT NOT NULL,
 
                 Descricao TEXT NOT NULL,
 

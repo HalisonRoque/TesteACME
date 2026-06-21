@@ -29,6 +29,18 @@
   width: 210px;
 }
 
+.periodo-field {
+  width: 260px !important;
+}
+
+::ng-deep .periodo-field .mdc-floating-label {
+  top: 14px !important;
+}
+
+::ng-deep .periodo-field .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
+
 ::ng-deep .filters .mat-mdc-form-field-infix {
   min-height: 25px !important;
   padding-top: 4px !important;
@@ -104,6 +116,23 @@ table {
   color: #f44336 !important;
 }
 
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.status-ativo {
+  background-color: #70e292;
+}
+
+.status-inativo {
+  background-color: #ea6e6e;
+}
+
 mat-paginator {
   margin-top: 8px;
 }
@@ -117,6 +146,30 @@ td {
 
 td button {
   transform: scale(0.9);
+}
+
+.btn-table-edit {
+  color: #1e40af !important;
+  background-color: #eff6ff !important;
+}
+.btn-table-edit:hover {
+  background-color: #dbeafe !important;
+}
+
+.btn-table-danger {
+  color: #810101 !important;
+  background-color: #f1dcdc !important;
+}
+.btn-table-danger:hover {
+  background-color: #f29f9f !important;
+}
+
+.btn-table-success {
+  color: #065f46 !important;
+  background-color: #ecfdf5 !important;
+}
+.btn-table-success:hover {
+  background-color: #d1fae5 !important;
 }
 
 @media (max-width: 768px) {

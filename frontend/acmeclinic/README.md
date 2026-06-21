@@ -1,59 +1,135 @@
-# Acmeclinic
+# ACME Clinic - Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.27.
+Frontend da aplicação **ACME Clinic**, desenvolvido com **Angular 19**, responsável pela interface de gerenciamento de pacientes e atendimentos clínicos.
 
-## Development server
+O sistema permite cadastrar, consultar, editar, ativar e inativar registros através de uma interface moderna e responsiva.
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## Tecnologias utilizadas
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Frontend
 
-## Code scaffolding
+* Angular 19
+* TypeScript
+* Angular Material
+* Angular CDK
+* Angular Router
+* Angular Forms (Reactive Forms)
+* RxJS
+* Bootstrap 5
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Ferramentas de desenvolvimento
 
-```bash
-ng generate component component-name
-```
+* Angular CLI
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+## Estrutura do projeto
 
 ```bash
-ng build
+src/
+├── app/
+│   ├── components/
+│   ├── core/
+│   │   ├── services/
+│   │   └── interceptors/
+│   ├── pages/
+│   │   ├── home/
+│   │   ├── pacientes/
+│   │   └── atendimentos/
+│   ├── shared/
+│   │   ├── interfaces/
+│   │   ├── models/
+│   │   ├── modals/
+│   │   └── notification/
+│   └── app.routes.ts
+│
+├── environments/
+└── styles.css
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+## Pré-requisitos
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Antes de executar o projeto, instale:
+
+* Node.js (versão 20+ recomendada)
+* npm
+
+Verifique:
 
 ```bash
-ng test
+node -v
+npm -v
 ```
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+## Instalação
+
+Entre na pasta:
 
 ```bash
-ng e2e
+cd acmeclinic
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Instale as dependências:
 
-## Additional Resources
+```bash
+npm install
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+
+## Executando o projeto
+
+Iniciar ambiente local:
+
+```bash
+npm run start
+```
+
+Acesse:
+
+```bash
+http://localhost:4200
+```
+
+---
+
+## Funcionalidades
+
+### Pacientes
+
+* Cadastro de pacientes
+* Edição de pacientes
+* Listagem paginada
+* Filtro por nome
+* Ativação e inativação
+
+### Atendimentos
+
+* Cadastro de atendimento
+* Edição de atendimento
+* Busca por paciente
+* Autocomplete de pacientes
+* Filtro por período
+* Ativação e inativação
+* Paginação
+
+---
+
+## Interface
+
+O projeto utiliza:
+
+* Angular Material para componentes
+* Bootstrap para apoio em layout
+
+---
+
+## Desenvolvido por
+
+Projeto desenvolvido para o desafio técnico **ACME Clinic**.
