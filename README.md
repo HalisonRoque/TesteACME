@@ -49,8 +49,6 @@ AcmeClinic
 * Angular CDK
 * Angular Router
 * Reactive Forms
-* RxJS
-* Bootstrap
 
 ---
 
