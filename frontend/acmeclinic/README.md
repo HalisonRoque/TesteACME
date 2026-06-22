@@ -16,8 +16,6 @@ O sistema permite cadastrar, consultar, editar, ativar e inativar registros atra
 * Angular CDK
 * Angular Router
 * Angular Forms (Reactive Forms)
-* RxJS
-* Bootstrap 5
 
 ### Ferramentas de desenvolvimento
 
@@ -88,7 +86,7 @@ npm install
 Iniciar ambiente local:
 
 ```bash
-npm run start
+npm start
 ```
 
 Acesse:

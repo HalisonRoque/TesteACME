@@ -107,7 +107,7 @@ dotnet --version
 # Clonar Projeto
 
 ```bash
-git clone URL_DO_REPOSITORIO
+git clone https://github.com/HalisonRoque/TesteACME.git
 ```
 
 Entrar:

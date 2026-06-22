@@ -106,18 +106,33 @@ public class PacienteServiceTests
         _repository
             .Setup(p => p.GetById(1))
             .ReturnsAsync(
-                new Paciente()
+                new Paciente
+                {
+                    Id = 1
+                }
             );
-
-        await _service.UpdatePaciente(1, new UpdatePacienteDto());
-
-        _repository
-            .Verify(
-                p => p.UpdatePaciente(
-                    It.IsAny<Paciente>()
-                ),
-                Times.Once
-            );
+    
+        var dto = new UpdatePacienteDto
+        {
+            Nome = "João Atualizado",
+            DataNascimento = new DateTime(1995, 1, 1),
+            Sexo = "Masculino",
+            Cidade = "Campina Grande",
+            CEP = "58400000",
+            Bairro = "Centro",
+            Endereco = "Rua A",
+            Complemento = "Casa",
+            Status = "Ativo"
+        };
+    
+        await _service.UpdatePaciente(1, dto);
+    
+        _repository.Verify(
+            p => p.UpdatePaciente(
+                It.IsAny<Paciente>()
+            ),
+            Times.Once
+        );
     }
 
     [Fact]

@@ -111,7 +111,7 @@ AcmeClinic
 ## Clonar
 
 ```bash
-git clone URL_DO_REPOSITORIO
+git clone https://github.com/HalisonRoque/TesteACME.git
 ```
 
 Entrar:
@@ -147,7 +147,7 @@ dotnet run --project AcmeClinic.Api
 Swagger:
 
 ```plaintext
-https://localhost:xxxx/swagger
+https://localhost:5094/swagger
 ```
 
 ---

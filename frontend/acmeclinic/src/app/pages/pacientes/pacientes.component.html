@@ -16,7 +16,11 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <input matInput placeholder="CPF" [(ngModel)]="filter.cpf" />
+          <input matInput placeholder="CPF" [(ngModel)]="filter.cpf" maxlength="11" />
+
+          <mat-hint align="end">
+            {{ filter.cpf?.length || 0 }}/11
+          </mat-hint>
         </mat-form-field>
 
         <mat-form-field appearance="outline">

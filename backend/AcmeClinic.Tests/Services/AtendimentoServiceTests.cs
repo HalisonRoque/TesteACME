@@ -30,7 +30,8 @@ public class AtendimentoServiceTests
         var dto = new CreateAtendimentoDto
         {
             PacienteId = 1,
-            DataHora = DateTime.Now,
+            Data = DateTime.Now.Date,
+            Hora = "10:30",
             Descricao = "Consulta",
             Status = "Ativo"
         };
@@ -63,7 +64,8 @@ public class AtendimentoServiceTests
         var dto = new CreateAtendimentoDto
         {
             PacienteId = 1,
-            DataHora = DateTime.Now.AddDays(1),
+            Data = DateTime.Now.AddDays(1),
+            Hora = "10:30",
             Descricao = "Teste",
             Status = "Ativo"
         };
@@ -76,16 +78,18 @@ public class AtendimentoServiceTests
     public async Task Nao_Deve_Permitir_Paciente_Inexistente()
     {
         _pacienteRepository
-            .Setup(
-                p => p.GetById(1)
-            )
+            .Setup(p => p.GetById(1))
             .ReturnsAsync((Paciente?)null);
 
-        var action = async () => await _service
-            .CreateAtendimento(
-                new()
+        var action = async () =>
+            await _service.CreateAtendimento(
+                new CreateAtendimentoDto
                 {
-                    PacienteId = 1
+                    PacienteId = 1,
+                    Data = DateTime.Today,
+                    Hora = "10:00",
+                    Descricao = "Consulta",
+                    Status = "Ativo"
                 }
             );
 
@@ -96,21 +100,24 @@ public class AtendimentoServiceTests
     public async Task Nao_Deve_Permitir_Paciente_Inativo()
     {
         _pacienteRepository
-            .Setup(
-                p => p.GetById(1)
-            )
+            .Setup(p => p.GetById(1))
             .ReturnsAsync(
                 new Paciente
                 {
+                    Id = 1,
                     Status = "Inativo"
                 }
             );
 
         var action = async () =>
             await _service.CreateAtendimento(
-                new()
+                new CreateAtendimentoDto
                 {
-                    PacienteId = 1
+                    PacienteId = 1,
+                    Data = DateTime.Today,
+                    Hora = "10:00",
+                    Descricao = "Consulta",
+                    Status = "Ativo"
                 }
             );
 
